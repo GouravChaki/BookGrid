@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from "react";
-import { testFunction } from "../../common/Functions/api";
+import { initialBooks } from "../../common/Functions/allBooks";
 import { Loader } from "../../ui-elements/Loader";
 
 const initialState = {
@@ -13,7 +13,9 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const initialFetch = async () => {
       try {
-        const booksData = await testFunction();
+        const booksData = await initialBooks();
+        console.log('booksData');
+        console.log(booksData);
         if (booksData.success) {
           setState({
             ...state,
