@@ -3,7 +3,7 @@ import { fetchAuthorBirthDate, fetchAuthorTopWork } from "./authorDetails";
 
 export const initialBooks = async () => {
   try {
-    //initially just 10 books will be fetched to get faster response and reduce loading time
+    //initially just 10 books will be fetched to get faster response and reduce loading time 
     const res = await axios.get("https://openlibrary.org/search.json?q=the&limit=10&page=1&offset=1");
     if (!res.data || !res.data.docs) {
       console.log("Error Fetching");
