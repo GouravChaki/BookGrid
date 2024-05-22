@@ -65,3 +65,17 @@ export const searchBooks = async (
     return false;
   }
 };
+
+export const convertToCSV = (sortedBooks) => {
+  const csvData = sortedBooks.map((book) => ({
+    Index: book.id,
+    "Ratings Average": book.ratings_average,
+    "Author Name": book.author_name,
+    Title: book.title,
+    "First Publish Year": book.first_publish_year,
+    Subject: book.subject,
+    "Author Birth Date": book.author_birth_date,
+    "Author Top Work": book.author_top_work,
+  }));
+  return csvData;
+};

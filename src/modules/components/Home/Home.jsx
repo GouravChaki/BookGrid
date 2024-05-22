@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import useAuth from "../../auth/AuthHook/auth";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import Spinner from "../../common/Components/DialogLoader/Spinner";
 import DashboardTable from "./childComponents/DashboardTable/DashboardTable";
 import SearchIcon from "./childComponents/SearchIcon/SearchIcon";
 import PaginationControlled from "./childComponents/PaginationControlled/PaginationControlled";
 import NumberOfRows from "./childComponents/NumberOfRows/NumberOfRows";
+import { StyledBox, StyledSection, StyledTypography } from "./Home.styles";
 
 export default function Home() {
   const { allBooks } = useAuth();
@@ -14,20 +15,21 @@ export default function Home() {
   const [row, setRow] = useState(10);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredBooks =
-      allBooks.filter((book) =>
-          searchQuery
-            ? book.author_name &&
-              book.author_name.toLowerCase().includes(searchQuery.toLowerCase())
-            : book
-        );
+  const normalizeString = (str) => str.replace(/[\s.]+/g, "").toLowerCase();
+
+  const filteredBooks = allBooks.filter((book) =>
+    searchQuery
+      ? book.author_name &&
+        normalizeString(book.author_name).includes(normalizeString(searchQuery))
+      : book
+  );
 
   return (
-    <Box component="section" sx={{ p: 3 }}>
+    <StyledSection component="section">
       <Spinner open={loading} />
-      <Typography variant="h4" gutterBottom>
-        Books Dashboard
-      </Typography>
+      <StyledTypography variant="h4" gutterBottom>
+        📕 BookGrid Dashboard 📖
+      </StyledTypography>
       <SearchIcon
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
@@ -36,14 +38,7 @@ export default function Home() {
         page={page}
       />
       <DashboardTable allBooks={filteredBooks} page={page} row={row} />
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginTop: 2,
-        }}
-      >
+      <StyledBox>
         <Box></Box>
         <Box>
           <PaginationControlled
@@ -61,7 +56,7 @@ export default function Home() {
             page={page}
           />
         </Box>
-      </Box>
-    </Box>
+      </StyledBox>
+    </StyledSection>
   );
 }

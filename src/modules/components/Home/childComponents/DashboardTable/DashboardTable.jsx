@@ -6,9 +6,19 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TableSortLabel,
   Typography,
+  Paper,
+  Box,
 } from "@mui/material";
+import {
+  CustomTableSortLabel,
+  HighlightTableCell,
+  StyledButton,
+  StyledTableCell,
+  StyledTableRow,
+} from "./DashboardTable.styles";
+import { CSVLink } from "react-csv";
+import { convertToCSV } from "../../../../common/Functions/functions";
 
 export default function DashboardTable({ allBooks, page, row }) {
   const [sortConfig, setSortConfig] = useState({
@@ -38,31 +48,35 @@ export default function DashboardTable({ allBooks, page, row }) {
   };
 
   return (
-    <>
+    <Box sx={{ mt: 4 }}>
+      <StyledButton variant="contained" color="primary">
+        <CSVLink
+          data={convertToCSV(sortedBooks)}
+          filename={"books_data.csv"}
+          style={{ textDecoration: "none", color: "#fff" }}
+        >
+          Download CSV
+        </CSVLink>
+      </StyledButton>
       {allBooks.length === 0 ? (
         <Typography variant="h6" align="center" sx={{ mt: 4 }}>
-          The current list doesn't have the author name.<br/>Click enter so that we can search the results for you!
+          The current list doesn't have the author name.
+          <br />
+          Click enter so that we can search the results for you!
         </Typography>
       ) : (
-        <TableContainer>
+        <TableContainer component={Paper}>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell
+                <StyledTableCell
                   align="center"
-                  sx={{
-                    cursor: "pointer",
-                    transition: "background-color 0.3s ease",
-                    "&:hover": {
-                      color: "rgba(0, 0, 0, 0.6)",
-                    },
-                  }}
                   onClick={() => requestSort("index")}
                 >
                   Index
-                </TableCell>
-                <TableCell align="center">
-                  <TableSortLabel
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  <CustomTableSortLabel
                     active={sortConfig.key === "ratings_average"}
                     direction={
                       sortConfig.key === "ratings_average"
@@ -72,10 +86,10 @@ export default function DashboardTable({ allBooks, page, row }) {
                     onClick={() => requestSort("ratings_average")}
                   >
                     Ratings Average
-                  </TableSortLabel>
-                </TableCell>
-                <TableCell align="center">
-                  <TableSortLabel
+                  </CustomTableSortLabel>
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  <CustomTableSortLabel
                     active={sortConfig.key === "author_name"}
                     direction={
                       sortConfig.key === "author_name"
@@ -85,10 +99,10 @@ export default function DashboardTable({ allBooks, page, row }) {
                     onClick={() => requestSort("author_name")}
                   >
                     Author Name
-                  </TableSortLabel>
-                </TableCell>
-                <TableCell align="center">
-                  <TableSortLabel
+                  </CustomTableSortLabel>
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  <CustomTableSortLabel
                     active={sortConfig.key === "title"}
                     direction={
                       sortConfig.key === "title" ? sortConfig.direction : "asc"
@@ -96,10 +110,10 @@ export default function DashboardTable({ allBooks, page, row }) {
                     onClick={() => requestSort("title")}
                   >
                     Title
-                  </TableSortLabel>
-                </TableCell>
-                <TableCell align="center">
-                  <TableSortLabel
+                  </CustomTableSortLabel>
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  <CustomTableSortLabel
                     active={sortConfig.key === "first_publish_year"}
                     direction={
                       sortConfig.key === "first_publish_year"
@@ -109,10 +123,10 @@ export default function DashboardTable({ allBooks, page, row }) {
                     onClick={() => requestSort("first_publish_year")}
                   >
                     First Publish Year
-                  </TableSortLabel>
-                </TableCell>
-                <TableCell align="center">
-                  <TableSortLabel
+                  </CustomTableSortLabel>
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  <CustomTableSortLabel
                     active={sortConfig.key === "subject"}
                     direction={
                       sortConfig.key === "subject"
@@ -122,10 +136,10 @@ export default function DashboardTable({ allBooks, page, row }) {
                     onClick={() => requestSort("subject")}
                   >
                     Subject
-                  </TableSortLabel>
-                </TableCell>
-                <TableCell align="center">
-                  <TableSortLabel
+                  </CustomTableSortLabel>
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  <CustomTableSortLabel
                     active={sortConfig.key === "author_birth_date"}
                     direction={
                       sortConfig.key === "author_birth_date"
@@ -135,10 +149,10 @@ export default function DashboardTable({ allBooks, page, row }) {
                     onClick={() => requestSort("author_birth_date")}
                   >
                     Author Birth Date
-                  </TableSortLabel>
-                </TableCell>
-                <TableCell align="center">
-                  <TableSortLabel
+                  </CustomTableSortLabel>
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  <CustomTableSortLabel
                     active={sortConfig.key === "author_top_work"}
                     direction={
                       sortConfig.key === "author_top_work"
@@ -148,26 +162,30 @@ export default function DashboardTable({ allBooks, page, row }) {
                     onClick={() => requestSort("author_top_work")}
                   >
                     Author Top Work
-                  </TableSortLabel>
-                </TableCell>
+                  </CustomTableSortLabel>
+                </StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {sortedBooks?.map((product, index) => (
-                <TableRow key={index}>
+                <StyledTableRow key={index}>
                   <TableCell align="center">
                     {index + 1 + (page - 1) * row}
                   </TableCell>
                   <TableCell align="center">
                     {product.ratings_average}
                   </TableCell>
-                  <TableCell align="center">{product.author_name}</TableCell>
+                  <HighlightTableCell align="center">
+                    {product.author_name}
+                  </HighlightTableCell>
                   <TableCell align="center">{product.title}</TableCell>
                   <TableCell align="center">
                     {product.first_publish_year}
                   </TableCell>
                   <TableCell align="center">
-                    {product.subject.length > 200
+                    {product &&
+                    product?.subject &&
+                    product?.subject?.length > 200
                       ? product.subject.substring(0, 200) + "..."
                       : product.subject}
                   </TableCell>
@@ -177,12 +195,12 @@ export default function DashboardTable({ allBooks, page, row }) {
                   <TableCell align="center">
                     {product.author_top_work}
                   </TableCell>
-                </TableRow>
+                </StyledTableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
       )}
-    </>
+    </Box>
   );
 }

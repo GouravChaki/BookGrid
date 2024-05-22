@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 import { searchBooks } from "../../../../common/Functions/functions";
 import useAuth from "../../../../auth/AuthHook/auth";
-
+import { CustomIconButton, CustomTextField } from "./SearchIcon.styles";
 export default function SearchIcon({
   searchQuery,
   setSearchQuery,
@@ -15,12 +15,13 @@ export default function SearchIcon({
 
   const handleSearch = async (e) => {
     e.preventDefault();
-    const res =await searchBooks(searchQuery, row, setLoading, state, setState, page);
+    const res = await searchBooks(searchQuery, row, setLoading, state, setState, page);
   };
+
   return (
     <Box mb={2} sx={{ display: "flex", alignItems: "center" }}>
-      <form onSubmit={handleSearch}>
-        <TextField
+      <form onSubmit={handleSearch} style={{ width: "100%" }}>
+        <CustomTextField
           label="Search by Author"
           variant="outlined"
           value={searchQuery}
@@ -30,20 +31,9 @@ export default function SearchIcon({
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <IconButton
-                  type="submit"
-                  sx={{
-                    backgroundColor: "#3f51b5",
-                    color: "#fff",
-                    "&:hover": {
-                      backgroundColor: "#303f9f",
-                    },
-                    borderRadius: "4px",
-                    padding: "10px",
-                  }}
-                >
+                <CustomIconButton type="submit">
                   <FaSearch />
-                </IconButton>
+                </CustomIconButton>
               </InputAdornment>
             ),
           }}
