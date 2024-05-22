@@ -1,6 +1,6 @@
 import { Outlet, createBrowserRouter } from "react-router-dom";
 import { Home } from "../components/Home";
-import { AuthProvider } from "../auth/AuthProvider/AuthProvider";
+import { AuthProvider } from "../auth/AuthProviderComponent/AuthProvider";
 
 const RouterConfig = createBrowserRouter([
   {
