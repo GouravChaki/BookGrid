@@ -1,18 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { handleChange } from "../functions/functions";
-import useAuth from "../../../auth/AuthHook/auth";
+import { handleChange } from "../../functions/functions";
+import useAuth from "../../../../auth/AuthHook/auth";
 
-export default function Pagination({ setLoading }) {
+export default function NumberOfRows({ setLoading, row, setRow, page }) {
   const { state, setState } = useAuth();
-  const [row, setRow] = useState(10);
 
   const changesFunc = async (event) => {
-    handleChange(event, setLoading, setRow, state, setState);
+    await handleChange(event.target.value, setLoading, state, setState, page);
+    setRow(event.target.value);
   };
 
   return (

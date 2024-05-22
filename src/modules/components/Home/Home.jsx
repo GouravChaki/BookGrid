@@ -1,65 +1,59 @@
 import React, { useState } from "react";
 import useAuth from "../../auth/AuthHook/auth";
-import {
-  Box,
-  Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from "@mui/material";
-import Pagination from "./childComponents/Pagination";
+import { Box, Typography } from "@mui/material";
 import Spinner from "../../common/Components/DialogLoader/Spinner";
+import DashboardTable from "./childComponents/DashboardTable/DashboardTable";
+import SearchIcon from "./childComponents/SearchIcon/SearchIcon";
+import PaginationControlled from "./childComponents/PaginationControlled/PaginationControlled";
+import NumberOfRows from "./childComponents/NumberOfRows/NumberOfRows";
+
 export default function Home() {
   const { allBooks } = useAuth();
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [row, setRow] = useState(10);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredBooks = allBooks.filter((book) =>
+    searchQuery
+      ? book.author_name &&
+        book.author_name.toLowerCase().includes(searchQuery.toLowerCase())
+      : book
+  );
+
   return (
     <Box component="section" sx={{ p: 3 }}>
-      <Spinner open={loading}/>
+      <Spinner open={loading} />
       <Typography variant="h4" gutterBottom>
-        All the Products
+        Books Dashboard
       </Typography>
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell align="center">Index</TableCell>
-              <TableCell align="center">Ratings Average</TableCell>
-              <TableCell align="center">Author Name</TableCell>
-              <TableCell align="center">Title</TableCell>
-              <TableCell align="center">First Publish Year</TableCell>
-              <TableCell align="center">Subject</TableCell>
-              <TableCell align="center">Author Birth Date</TableCell>
-              <TableCell align="center">Author Top Work</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {allBooks.map((product, index) => (
-              <TableRow key={index}>
-                <TableCell align="center">{index + 1}</TableCell>
-                <TableCell align="center">{product.ratings_average}</TableCell>
-                <TableCell align="center">{product.author_name}</TableCell>
-                <TableCell align="center">{product.title}</TableCell>
-                <TableCell align="center">
-                  {product.first_publish_year}
-                </TableCell>
-                <TableCell align="center">
-                  {product.subject.substring(0, 200) + "..."}
-                </TableCell>
-                <TableCell align="center">
-                  {product.author_birth_date}
-                </TableCell>
-                <TableCell align="center">{product.author_top_work}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <Box sx={{ display: "flex", justifyContent: "flex-end", marginTop: 2 }}>
-        <Pagination setLoading={setLoading}/>
+      <SearchIcon searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+      <DashboardTable allBooks={filteredBooks} page={page} row={row} />
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginTop: 2,
+        }}
+      >
+        <Box></Box>
+        <Box>
+          <PaginationControlled
+            row={row}
+            page={page}
+            setPage={setPage}
+            setLoading={setLoading}
+          />
+        </Box>
+        <Box>
+          <NumberOfRows
+            setLoading={setLoading}
+            row={row}
+            setRow={setRow}
+            page={page}
+          />
+        </Box>
       </Box>
     </Box>
   );

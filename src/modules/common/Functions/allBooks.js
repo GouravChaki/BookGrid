@@ -45,7 +45,7 @@ export const initialBooks = async ({ limit, page, offset }) => {
 
 export const paginatedBooks = async ({ limit, page, offset }) => {
   try {
-    //initially just 10 books will be fetched to get faster response and reduce loading time
+    console.log('limit ',limit, ' page ',page,' offset ',offset)    
     const res = await axios.get(
       `https://openlibrary.org/search.json?q=the&limit=${String(
         limit
@@ -62,9 +62,9 @@ export const paginatedBooks = async ({ limit, page, offset }) => {
         const authorKey = book.author_key[0];
         const authorName = book.author_name[0];
 
-        // const authorBirthDate = await fetchAuthorBirthDate(authorKey);
+        const authorBirthDate = await fetchAuthorBirthDate(authorKey);
 
-        // const authorTopWork = await fetchAuthorTopWork(authorName);
+        const authorTopWork = await fetchAuthorTopWork(authorName);
 
         return {
           ratings_average: book.ratings_average || null,
@@ -72,8 +72,8 @@ export const paginatedBooks = async ({ limit, page, offset }) => {
           title: book.title || null,
           first_publish_year: book.first_publish_year || null,
           subject: book.subject ? book.subject.join(", ") : null,
-          author_birth_date: null,
-          author_top_work: null,
+          author_birth_date: authorBirthDate || null,
+          author_top_work: authorTopWork || null,
         };
       })
     );
