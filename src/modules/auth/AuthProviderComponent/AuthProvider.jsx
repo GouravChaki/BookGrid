@@ -5,7 +5,7 @@ import { Loader } from "../../ui-elements/Loader";
 const initialState = {
   loading: true,
   initialized: false,
-  allBooks: []
+  allBooks: [],
 };
 const AuthContext = createContext(initialState);
 export function AuthProvider({ children }) {
@@ -13,14 +13,12 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const initialFetch = async () => {
       try {
-        const booksData = await initialBooks();
-        console.log('booksData');
-        console.log(booksData);
+        const booksData = await initialBooks({ limit: 10, page: 1, offset: 1 });
         if (booksData.success) {
           setState({
             ...state,
             initialized: true,
-            allBooks: booksData.data
+            allBooks: booksData.data,
           });
         } else {
           console.error("Failed to fetch data");
@@ -35,7 +33,9 @@ export function AuthProvider({ children }) {
   if (!state.initialized) return <Loader />;
 
   return (
-    <AuthContext.Provider value={{ ...state }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ ...state, setState }}>
+      {children}
+    </AuthContext.Provider>
   );
 }
 

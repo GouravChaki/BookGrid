@@ -38,7 +38,7 @@ export default function Home() {
           </TableHead>
           <TableBody>
             {allBooks.map((product, index) => (
-              <TableRow key={product.id}>
+              <TableRow key={index}>
                 <TableCell align="center">{index + 1}</TableCell>
                 <TableCell align="center">{product.ratings_average}</TableCell>
                 <TableCell align="center">{product.author_name}</TableCell>
