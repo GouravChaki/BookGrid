@@ -60,9 +60,10 @@ export default function DashboardTable({ allBooks, page, row }) {
       </StyledButton>
       {allBooks.length === 0 ? (
         <Typography variant="h6" align="center" sx={{ mt: 4 }}>
-          The current list doesn't have the author name.
-          <br />
-          Click enter so that we can search the results for you!
+          Author name is not listed in the current data.<br/>
+          Press 'Enter' to initiate a search for the author.
+          <br/>Or<br/>
+          It indicates that there's no further data available for the current author.
         </Typography>
       ) : (
         <TableContainer component={Paper}>
