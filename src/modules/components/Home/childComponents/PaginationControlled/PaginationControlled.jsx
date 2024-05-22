@@ -1,8 +1,8 @@
 import * as React from "react";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-import { handleChange } from "../../functions/functions";
 import useAuth from "../../../../auth/AuthHook/auth";
+import { handleChange } from "../../../../common/Functions/functions";
 
 export default function PaginationControlled({
   row,
@@ -11,9 +11,11 @@ export default function PaginationControlled({
   setLoading,
 }) {
   const { state, setState } = useAuth();
-  const changesFunc = async (event,value) => {
-    await handleChange(row, setLoading, state, setState, value);
-    setPage(value);
+  const changesFunc = async (event, value) => {
+    const res = await handleChange(row, setLoading, state, setState, value);
+    if (res) {
+      setPage(value);
+    }
   };
 
   return (

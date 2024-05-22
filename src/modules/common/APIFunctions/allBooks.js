@@ -1,8 +1,10 @@
 import axios from "axios";
 import { fetchAuthorBirthDate, fetchAuthorTopWork } from "./authorDetails";
+import { showToastMessage } from "../Functions/toast";
 
 export const initialBooks = async ({ limit, page, offset }) => {
   try {
+    showToastMessage("info", "Fetching and Processing this API Data may take upto 15s: Kindly Wait!",8000,1);
     //initially just 10 books will be fetched to get faster response and reduce loading time
     const res = await axios.get(
       `https://openlibrary.org/search.json?q=the&limit=${String(
@@ -38,6 +40,7 @@ export const initialBooks = async ({ limit, page, offset }) => {
 
     return { data: bookDetails, success: true };
   } catch (error) {
+    showToastMessage("error", "Error fetching data",8000,1);
     console.log("Error", error);
     return { data: [], success: false };
   }
@@ -45,6 +48,7 @@ export const initialBooks = async ({ limit, page, offset }) => {
 
 export const paginatedBooks = async ({ limit, page, offset }) => {
   try {
+    showToastMessage("info", "Fetching and Processing this API Data may take upto 15s: Kindly Wait!",8000,1);
     console.log('limit ',limit, ' page ',page,' offset ',offset)    
     const res = await axios.get(
       `https://openlibrary.org/search.json?q=the&limit=${String(
@@ -55,7 +59,6 @@ export const paginatedBooks = async ({ limit, page, offset }) => {
       console.log("Error Fetching");
       return { data: [], success: false };
     }
-
     const books = res.data.docs;
     const bookDetails = await Promise.all(
       books.map(async (book) => {
@@ -77,9 +80,9 @@ export const paginatedBooks = async ({ limit, page, offset }) => {
         };
       })
     );
-
     return { data: bookDetails, success: true };
   } catch (error) {
+    showToastMessage("error", "Error fetching data",8000,1);
     console.log("Error", error);
     return { data: [], success: false };
   }

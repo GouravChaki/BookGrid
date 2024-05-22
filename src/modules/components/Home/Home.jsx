@@ -14,12 +14,13 @@ export default function Home() {
   const [row, setRow] = useState(10);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredBooks = allBooks.filter((book) =>
-    searchQuery
-      ? book.author_name &&
-        book.author_name.toLowerCase().includes(searchQuery.toLowerCase())
-      : book
-  );
+  const filteredBooks =
+      allBooks.filter((book) =>
+          searchQuery
+            ? book.author_name &&
+              book.author_name.toLowerCase().includes(searchQuery.toLowerCase())
+            : book
+        );
 
   return (
     <Box component="section" sx={{ p: 3 }}>
@@ -27,7 +28,13 @@ export default function Home() {
       <Typography variant="h4" gutterBottom>
         Books Dashboard
       </Typography>
-      <SearchIcon searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+      <SearchIcon
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        row={row}
+        setLoading={setLoading}
+        page={page}
+      />
       <DashboardTable allBooks={filteredBooks} page={page} row={row} />
       <Box
         sx={{

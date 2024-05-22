@@ -1,11 +1,21 @@
 import { Box, IconButton, InputAdornment, TextField } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
+import { searchBooks } from "../../../../common/Functions/functions";
+import useAuth from "../../../../auth/AuthHook/auth";
 
-export default function SearchIcon({ searchQuery, setSearchQuery }) {
-  const handleSearch = (e) => {
+export default function SearchIcon({
+  searchQuery,
+  setSearchQuery,
+  row,
+  setLoading,
+  page,
+}) {
+  const { state, setState } = useAuth();
+
+  const handleSearch = async (e) => {
     e.preventDefault();
-    console.log("Search submitted for:", searchQuery);
+    const res =await searchBooks(searchQuery, row, setLoading, state, setState, page);
   };
   return (
     <Box mb={2} sx={{ display: "flex", alignItems: "center" }}>

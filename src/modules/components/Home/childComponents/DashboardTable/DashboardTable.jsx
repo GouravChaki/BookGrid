@@ -41,7 +41,7 @@ export default function DashboardTable({ allBooks, page, row }) {
     <>
       {allBooks.length === 0 ? (
         <Typography variant="h6" align="center" sx={{ mt: 4 }}>
-          The current list doesn't have the author name. Click enter to search the results for you!
+          The current list doesn't have the author name.<br/>Click enter so that we can search the results for you!
         </Typography>
       ) : (
         <TableContainer>
@@ -153,7 +153,7 @@ export default function DashboardTable({ allBooks, page, row }) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {sortedBooks.map((product, index) => (
+              {sortedBooks?.map((product, index) => (
                 <TableRow key={index}>
                   <TableCell align="center">
                     {index + 1 + (page - 1) * row}
