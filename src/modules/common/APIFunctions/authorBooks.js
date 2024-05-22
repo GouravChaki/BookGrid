@@ -11,7 +11,6 @@ export const authorSpecificBooks = async ({author, limit, page, offset }) => {
       )}&page=${String(page)}&offset=${String(offset)}`
     );
     if (!res.data || !res.data.docs) {
-      console.log("Error Fetching");
       return { data: [], success: false };
     }
 
@@ -40,7 +39,6 @@ export const authorSpecificBooks = async ({author, limit, page, offset }) => {
     return { data: bookDetails, success: true };
   } catch (error) {
     showToastMessage("error", "Error fetching data",8000,1);
-    console.log("Error", error);
     return { data: [], success: false };
   }
 };

@@ -12,7 +12,6 @@ export const initialBooks = async ({ limit, page, offset }) => {
       )}&page=${String(page)}&offset=${String(offset)}`
     );
     if (!res.data || !res.data.docs) {
-      console.log("Error Fetching");
       return { data: [], success: false };
     }
 
@@ -41,7 +40,6 @@ export const initialBooks = async ({ limit, page, offset }) => {
     return { data: bookDetails, success: true };
   } catch (error) {
     showToastMessage("error", "Error fetching data",8000,1);
-    console.log("Error", error);
     return { data: [], success: false };
   }
 };
@@ -49,14 +47,12 @@ export const initialBooks = async ({ limit, page, offset }) => {
 export const paginatedBooks = async ({ limit, page, offset }) => {
   try {
     showToastMessage("info", "Fetching and Processing this API Data may take upto 15s: Kindly Wait!",8000,1);
-    console.log('limit ',limit, ' page ',page,' offset ',offset)    
     const res = await axios.get(
       `https://openlibrary.org/search.json?q=the&limit=${String(
         limit
       )}&page=${String(page)}&offset=${String(offset)}`
     );
     if (!res.data || !res.data.docs) {
-      console.log("Error Fetching");
       return { data: [], success: false };
     }
     const books = res.data.docs;
@@ -83,7 +79,6 @@ export const paginatedBooks = async ({ limit, page, offset }) => {
     return { data: bookDetails, success: true };
   } catch (error) {
     showToastMessage("error", "Error fetching data",8000,1);
-    console.log("Error", error);
     return { data: [], success: false };
   }
 };

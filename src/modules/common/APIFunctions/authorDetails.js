@@ -7,7 +7,6 @@ export const fetchAuthorBirthDate = async (authorKey) => {
       return authorRes.data.birth_date || null;
     } catch (error) {
       showToastMessage("error", `Error fetching author birth date for ${authorKey}`,8000,1);
-      console.log(`Error fetching author birth date for ${authorKey}:`, error);
       return null;
     }
   };
@@ -18,7 +17,6 @@ export const fetchAuthorTopWork = async (authorName) => {
       return authorTopWorkRes.data.docs[0]?.top_work || null;
     } catch (error) {
       showToastMessage("error", `Error fetching author top work for ${authorName}:`,8000,1);
-      console.log(`Error fetching author top work for ${authorName}:`, error);
       return null;
     }
   };
