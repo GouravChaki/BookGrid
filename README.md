@@ -1,4 +1,4 @@
-# NUA Assignment: BookGrid
+# BookGrid
 
 The Project is build using React-CRA, styling has been done using MUI, Styled Components.
 
